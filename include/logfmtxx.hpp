@@ -11,6 +11,8 @@
 #include <sstream>
 #include <string>
 
+#include <termcolor/termcolor.hpp>
+
 namespace logfmtxx {
   enum class level {
     debug,
@@ -149,22 +151,37 @@ namespace logfmtxx {
       }
 
     private:
+      #define NC      termcolor::reset
+      #define CYAN    termcolor::cyan
+      #define GREEN   termcolor::green
+      #define YELLOW  termcolor::yellow
+      #define RED     termcolor::red
+      #define BLUE    termcolor::blue
+
       std::string format(const details::record& record) {
         auto stream = std::ostringstream{};
 
+             if (record.lvl == level::debug) stream << NC;
+        else if(record.lvl == level::info)   stream << CYAN;
+        else if(record.lvl == level::warn)   stream << YELLOW;
+        else if(record.lvl == level::error)  stream << RED;
+
         stream << "time=" << details::serialize(record.ts) << " ";
-        stream << "level=" << details::serialize(record.lvl) << " ";
-        stream << "message=" << std::quoted(record.msg);
+        stream << "level=" << details::serialize(record.lvl);
 
         for (auto i = 0; i < record.global_ctx_size; ++i) {
           const auto& [key, value] = record.global_ctx[i];
           stream << " " << key << "=" << value;
         }
 
+        stream << " " << "message=" << std::quoted(record.msg);
+
         for (auto i = 0; i < record.local_ctx_size; ++i) {
           const auto& [key, value] = record.local_ctx[i];
           stream << " " << key << "=" << value;
         }
+
+        stream << NC;
 
         return stream.str();
       }
