@@ -3,9 +3,6 @@
 Header-only C++23 structured logging library using the
 [logfmt](https://brandur.org/logfmt) format.
 
-> [!IMPORTANT]  
-> This fork requires [termcolor](https://github.com/yawin123/termcolor)
-
 ## Installation
 
 Just copy the `include/logfmtxx.hpp` in your project.
