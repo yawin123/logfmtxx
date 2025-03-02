@@ -11,8 +11,6 @@
 #include <sstream>
 #include <string>
 
-#include <termcolor/termcolor.hpp>
-
 namespace logfmtxx {
   enum class level {
     debug,
@@ -151,12 +149,12 @@ namespace logfmtxx {
       }
 
     private:
-      #define NC      termcolor::reset
-      #define CYAN    termcolor::cyan
-      #define GREEN   termcolor::green
-      #define YELLOW  termcolor::yellow
-      #define RED     termcolor::red
-      #define BLUE    termcolor::blue
+      #define NC      "\033[00m"
+      #define CYAN    "\033[36m"
+      #define GREEN   "\033[92m"
+      #define YELLOW  "\033[33m"
+      #define RED     "\033[31m"
+      #define BLUE    "\033[34m"
 
       std::string format(const details::record& record) {
         auto stream = std::ostringstream{};
